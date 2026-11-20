@@ -41,8 +41,6 @@ All by email at minimum. **(owner, 2026-11-20)**
    1. a time offset (e.g. a duration before a deadline);
    2. a cron-like schedule;
    3. an exact date and time.
-8. **R3.8** What an offset is measured from (only deadlines, or other dates and events too), and where timings are
-   set (per task, per project, company-wide defaults). **(open)**
 
 ## 4. Administration and oversight
 
