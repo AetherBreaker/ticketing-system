@@ -21,8 +21,7 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
 2. **R2.2** A task can be broken into individual steps whose completion is tracked. **(owner, 2026-11-20)**
 3. **R2.3** Projects group tasks; who can see which project is controllable. **(owner, 2026-11-20)**
 4. **R2.4** Time tracking on tasks. **(owner, 2026-11-20)**
-5. **R2.5** Whether a step needs its own assignee and deadline, or only a done/not-done mark, varies by task.
-   **(open)**
+5. **R2.5** A step can have its own assignee and its own deadline; both are optional. **(owner, 2026-11-20)**
 
 ## 3. Reminders
 
@@ -33,9 +32,15 @@ All by email at minimum. **(owner, 2026-11-20)**
 3. **R3.3** Nagging every day until the task is done. **(owner, 2026-11-20)**
 4. **R3.4** Escalation to a manager when a task is overdue. **(owner, 2026-11-20)**
 5. **R3.5** Reminders on individual steps, for some tasks. **(owner, 2026-11-20: "potentially, depends on the task")**
-6. **R3.6** Channels beyond email (phone push, SMS, chat). **(open)**
-7. **R3.7** The timings: how long before a deadline, when the daily nag goes out, how many days overdue before
-   escalating, and whether these vary by project or task. The trial uses 1 day, 8:00 Eastern and 2 days. **(open)**
+6. **R3.6** SMS, and possibly mobile push, likely later. Not part of the initial build and deploy: they come once
+   the system is up and working. **(owner, 2026-11-20)**
+7. **R3.7** Every reminder, whether a regular reminder, a past-due reminder or an escalation, is timed by one of
+   three base timings **(owner, 2026-11-20)**:
+   1. a time offset (e.g. a duration before a deadline);
+   2. a cron-like schedule;
+   3. an exact date and time.
+8. **R3.8** What an offset is measured from (only deadlines, or other dates and events too), and where timings are
+   set (per task, per project, company-wide defaults). **(open)**
 
 ## 4. Administration and oversight
 
@@ -58,8 +63,10 @@ All by email at minimum. **(owner, 2026-11-20)**
 ## 7. Access
 
 1. **R7.1** Reachable over the open internet, so people can use it away from the office. **(owner, 2026-11-20)**
-2. **R7.2** How people sign in: separate passwords, or the company's existing accounts. **(open)**
-3. **R7.3** Phone use: whether staff will use it on phones, and whether the mobile website is enough. **(open)**
+2. **R7.2** How people sign in. Needs a discussion; it is likely time for the company to move to a directory service
+   for user provisioning. **(open; owner, 2026-11-20)**
+3. **R7.3** Staff will use it on phones. **(owner, 2026-11-20: "extremely likely")** Whether the mobile website is
+   enough is open.
 
 ## 8. Branding
 
@@ -74,7 +81,8 @@ All by email at minimum. **(owner, 2026-11-20)**
    acceptable. **(owner, 2026-11-20)**
 3. **R9.3** Security fixes are taken promptly, since it is internet-facing. **(owner, 2026-11-20)**
 4. **R9.4** Once settled, new features over time are not expected to be needed. **(owner, 2026-11-20)**
-5. **R9.5** Backups, how much data loss is tolerable, and how long records are kept. **(open)**
+5. **R9.5** Backups. **(owner, 2026-11-20: "yes, most likely")** How much data loss is tolerable and how long
+   records are kept are open.
 6. **R9.6** The outgoing mail service the reminders send through. **(open)**
 
 ## 10. Codebase
@@ -89,5 +97,7 @@ All by email at minimum. **(owner, 2026-11-20)**
 
 ## 11. People
 
-1. **R11.1** How many people will use it, and in which roles (staff, managers, administrators). **(open)**
-2. **R11.2** Whether anyone outside the company (customers, vendors) needs access. **(open)**
+1. **R11.1** Roughly 20 people to start, possibly as many as 130. **(owner, 2026-11-20)** The roles (staff,
+   managers, administrators) are open.
+2. **R11.2** Possibly used for the stores, either as one generic task tracker per store or with each store as a team
+   and every store employee a user. **(owner, 2026-11-20: "maybe")** Which model, if any, is open.
