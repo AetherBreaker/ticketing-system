@@ -1,0 +1,42 @@
+[project]
+  name            = "ticketing-system"
+  version         = "0.1.0"
+  description     = "Company task tracking on Odoo Community: reminders, overdue nagging and manager escalation"
+  readme          = "README.md"
+  requires-python = ">=3.14"
+  dependencies    = [
+    # Odoo's dated source release; moving this pin is how an Odoo patch update ships.
+    "odoo @ https://nightly.odoo.com/20.0/nightly/src/odoo_20.0.20261102.tar.gz",
+  ]
+
+  [project.scripts]
+    run-app-ticketing-system = "ticketing_system.__main__:run_app"
+
+[dependency-groups]
+  dev = ["aeth-devkit>=15.1.1", "poethepoet>=0.46.0"]
+
+[build-system]
+  requires      = ["uv_build>=0.11.2,<0.12.0"]
+  build-backend = "uv_build"
+
+[tool.docker]
+  services                = ["ticketing-system"]
+  required_persisted_dirs = ["persisted_data"]
+
+[tool.poe]
+  include_script = [{ script = "aeth_devkit:tasks", executor = { type = "uv", frozen = true } }]
+
+[tool.uv]
+  environments = [
+    "sys_platform == 'linux'",
+    "sys_platform == 'win32'",
+  ]
+
+  [tool.uv.sources]
+    aeth-devkit = [{ index = "SFTPyPI" }]
+
+  [[tool.uv.index]]
+    name        = "SFTPyPI"
+    url         = "https://pypi.sweetfiretobacco.com/jacob.ogden/internal/+simple"
+    publish-url = "https://pypi.sweetfiretobacco.com/jacob.ogden/internal/"
+    explicit    = true

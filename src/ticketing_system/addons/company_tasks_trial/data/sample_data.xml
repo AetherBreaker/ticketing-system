@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Trial-only sample data. noupdate: module updates leave edits made in the interface alone. -->
+    <data noupdate="1">
+        <record id="base.main_company" model="res.company">
+            <field name="name">Trial Company</field>
+            <field name="email">tasks@trial.local</field>
+        </record>
+        <record id="base.user_admin" model="res.users">
+            <field name="email">admin@trial.local</field>
+            <field name="tz">America/New_York</field>
+        </record>
+
+        <record id="user_manager" model="res.users">
+            <field name="name">Morgan Manager</field>
+            <field name="login">manager</field>
+            <field name="password">trialpass123</field>
+            <field name="email">manager@trial.local</field>
+            <field name="tz">America/New_York</field>
+            <field name="group_ids" eval="[(6, 0, [
+                ref('base.group_user'),
+                ref('project.group_project_manager'),
+                ref('hr_timesheet.group_timesheet_manager'),
+            ])]"/>
+        </record>
+        <record id="user_worker" model="res.users">
+            <field name="name">Wes Worker</field>
+            <field name="login">worker</field>
+            <field name="password">trialpass123</field>
+            <field name="email">worker@trial.local</field>
+            <field name="tz">America/New_York</field>
+            <field name="group_ids" eval="[(6, 0, [
+                ref('base.group_user'),
+                ref('project.group_project_user'),
+                ref('hr_timesheet.group_hr_timesheet_user'),
+            ])]"/>
+        </record>
+        <!-- Logging time requires an employee record per user. -->
+        <record id="employee_manager" model="hr.employee">
+            <field name="name">Morgan Manager</field>
+            <field name="user_id" ref="user_manager"/>
+        </record>
+        <record id="employee_worker" model="hr.employee">
+            <field name="name">Wes Worker</field>
+            <field name="user_id" ref="user_worker"/>
+        </record>
+
+        <!-- Visible to every employee. -->
+        <record id="project_warehouse" model="project.project">
+            <field name="name">Warehouse Operations</field>
+            <field name="user_id" ref="user_manager"/>
+            <field name="privacy_visibility">employees</field>
+        </record>
+        <!-- Visible only to followers (and Project Administrators), so the worker can't see it. -->
+        <record id="project_office" model="project.project">
+            <field name="name">Office Admin</field>
+            <field name="user_id" ref="user_manager"/>
+            <field name="privacy_visibility">followers</field>
+        </record>
+
+        <!-- Deadline within a day: triggers the "due tomorrow" reminder on the first rule check. -->
+        <record id="task_restock" model="project.task">
+            <field name="name">Restock shipping supplies</field>
+            <field name="project_id" ref="project_warehouse"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_worker')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() + timedelta(hours=20)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="allocated_hours">2</field>
+        </record>
+        <!-- 3 days overdue: appears in the daily summary and triggers the manager escalation. -->
+        <record id="task_inventory" model="project.task">
+            <field name="name">Submit monthly inventory count</field>
+            <field name="project_id" ref="project_warehouse"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_worker')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+        <!-- Repeats weekly: marking it done creates next week's copy. -->
+        <record id="task_forklift" model="project.task">
+            <field name="name">Weekly forklift safety inspection</field>
+            <field name="project_id" ref="project_warehouse"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_worker')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d 16:00:00')"/>
+            <field name="recurring_task" eval="True"/>
+            <field name="repeat_interval">1</field>
+            <field name="repeat_unit">week</field>
+            <field name="repeat_type">forever</field>
+        </record>
+
+        <!-- A task broken into steps, each with its own person and deadline. -->
+        <record id="task_onboarding" model="project.task">
+            <field name="name">Onboard new hire</field>
+            <field name="project_id" ref="project_warehouse"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_manager')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() + timedelta(days=7)).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record id="task_onboarding_accounts" model="project.task">
+            <field name="name">Create computer and email accounts</field>
+            <field name="project_id" ref="project_warehouse"/>
+            <field name="parent_id" ref="task_onboarding"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_manager')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() + timedelta(days=2)).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record id="task_onboarding_uniform" model="project.task">
+            <field name="name">Order uniform and safety gear</field>
+            <field name="project_id" ref="project_warehouse"/>
+            <field name="parent_id" ref="task_onboarding"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_worker')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() + timedelta(days=3)).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record id="task_onboarding_training" model="project.task">
+            <field name="name">Schedule safety training</field>
+            <field name="project_id" ref="project_warehouse"/>
+            <field name="parent_id" ref="task_onboarding"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_worker')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+
+        <record id="task_license" model="project.task">
+            <field name="name">Renew business license</field>
+            <field name="project_id" ref="project_office"/>
+            <field name="user_ids" eval="[(6, 0, [ref('user_manager')])]"/>
+            <field name="date_deadline" eval="(DateTime.now() + timedelta(days=10)).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+    </data>
+</odoo>

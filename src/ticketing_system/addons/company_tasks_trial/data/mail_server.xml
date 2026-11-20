@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Trial only: every outgoing email goes to the local Mailpit inbox. -->
+    <record id="mail_server_trial_inbox" model="ir.mail_server">
+        <field name="name">Trial inbox (Mailpit)</field>
+        <field name="smtp_host">mailpit</field>
+        <field name="smtp_port">1025</field>
+        <field name="smtp_encryption">none</field>
+        <field name="smtp_authentication">login</field>
+    </record>
+
+    <!-- Links in emails point here; freeze stops Odoo rewriting it from the first admin login. -->
+    <function model="ir.config_parameter" name="set_str" eval="('web.base.url', 'http://localhost:8069')"/>
+    <function model="ir.config_parameter" name="set_bool" eval="('web.base.url.freeze', True)"/>
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- (a) Reminder before the deadline. Time-based rules fire once per task, when deadline - 1 day passes. -->
+    <record id="automation_due_soon" model="base.automation">
+        <field name="name">Remind assignees 1 day before the deadline</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="project.field_project_task__date_deadline"/>
+        <field name="trg_date_range">1</field>
+        <field name="trg_date_range_mode">before</field>
+        <field name="trg_date_range_type">day</field>
+        <!-- The deadline check stops a "due tomorrow" email for tasks already overdue, e.g. on the
+             rule's first run, which catches up on every past deadline; the daily summary covers those. -->
+        <field name="filter_domain">[('is_closed', '=', False), ('is_template', '=', False), ('user_ids', '!=', False), ('date_deadline', '&gt;', datetime.datetime.now())]</field>
+    </record>
+    <record id="action_due_soon" model="ir.actions.server">
+        <field name="name">Email the assignees: due tomorrow</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="base_automation_id" ref="automation_due_soon"/>
+        <field name="usage">base_automation</field>
+        <field name="state">code</field>
+        <field name="code">
+template = env.ref('company_tasks.mail_template_due_soon')
+for task in records:
+    template.send_mail(task.id, email_layout_xmlid='mail.mail_notification_light',
+                       email_values={'recipient_ids': [Command.set(task.user_ids.partner_id.ids)]})
+        </field>
+    </record>
+
+    <!-- (d) Escalation: once per task, 2 days after a missed deadline, tell the project manager. -->
+    <record id="automation_escalate" model="base.automation">
+        <field name="name">Escalate to the project manager 2 days after a missed deadline</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="trigger">on_time</field>
+        <field name="trg_date_id" ref="project.field_project_task__date_deadline"/>
+        <field name="trg_date_range">2</field>
+        <field name="trg_date_range_mode">after</field>
+        <field name="trg_date_range_type">day</field>
+        <field name="filter_domain">[('is_closed', '=', False), ('is_template', '=', False), ('project_id.user_id', '!=', False)]</field>
+    </record>
+    <record id="action_escalate" model="ir.actions.server">
+        <field name="name">Email the project manager: overdue 2+ days</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="base_automation_id" ref="automation_escalate"/>
+        <field name="usage">base_automation</field>
+        <field name="state">code</field>
+        <field name="code">
+template = env.ref('company_tasks.mail_template_escalation')
+for task in records:
+    template.send_mail(task.id, email_layout_xmlid='mail.mail_notification_light',
+                       email_values={'recipient_ids': [Command.set(task.project_id.user_id.partner_id.ids)]})
+        </field>
+    </record>
+
+    <!-- (c) Nag every day until done: one summary email per person, 8:00 Eastern (13:00 UTC). -->
+    <record id="cron_overdue_digest" model="ir.cron">
+        <field name="name">Tasks: daily overdue summary</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_overdue_digest()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 13:00:00')"/>
+    </record>
+</odoo>

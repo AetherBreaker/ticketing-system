@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Same effect as ticking these options in Project > Configuration > Settings. -->
+    <record id="base.group_user" model="res.groups">
+        <field name="implied_ids" eval="[
+            (4, ref('project.group_project_recurring_tasks')),
+            (4, ref('project.group_project_task_dependencies')),
+        ]"/>
+    </record>
+</odoo>
