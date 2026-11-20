@@ -83,7 +83,10 @@ All by email at minimum. **(owner, 2026-11-20)**
 4. **R9.4** Once settled, new features over time are not expected to be needed. **(owner, 2026-11-20)**
 5. **R9.5** Backups. **(owner, 2026-11-20: "yes, most likely")** How much data loss is tolerable and how long
    records are kept are open.
-6. **R9.6** The outgoing mail service the reminders send through. **(open)**
+6. **R9.6** Email goes through the company's Zoho Mail, and only within the company's own domain: every message is
+   to and from a Zoho Mail account. No plans to send reminders outside the domain. **(owner, 2026-11-20)** Zoho's
+   per-account daily sending limit for the company's plan, and whether replies to reminder emails should post onto
+   the task (which needs an inbox Odoo reads), are open.
 
 ## 10. Codebase
 
