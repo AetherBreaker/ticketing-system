@@ -36,3 +36,21 @@ says otherwise.
    handlers, so this needs a look before adopting.
 2. White-label scope: owner leaned toward full white label (logo, colors, emails, "Powered by Odoo" footer).
 3. Coolify server upgrade: currently 2 GB with heavy swap use; Odoo plus Postgres idle at about 210 MB.
+4. **The deployment image does not start yet: Odoo refuses `PYTHONOPTIMIZE`**, which devkit-container's Dockerfile
+   template sets in every image (after the project windows, so a window cannot override it). Odoo's guard in
+   `odoo/init.py` exists because its code relies on 530 `assert` statements (173 files, none in tests) as real
+   checks. Options discussed, none chosen:
+   - `PYTHONOPTIMIZE=` (empty, i.e. off) in `docker/compose.yaml`;
+   - the launcher re-execs itself without it;
+   - a devkit-container opt-out (dependency repo: owner's go-ahead and merge);
+   - in the fork, rewrite the asserts as `if` guards at build time, keeping `AssertionError` (7 callers catch it).
+     Under `-O` that behaves the same as no `-O`; it only satisfies the template.
+   - `-OO` additionally strips docstrings: crashes `base_sparse_field` and `odoo upgrade_code`, and blanks the
+     model info text, API doc descriptions and CLI help; the memory saved is unmeasured.
+5. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). Findings so far: 3.15.0 shipped
+   2026-10-09; uv publishes a `python3.15-trixie-slim` image; greenlet, gevent, psycopg2, lxml, pillow and
+   cryptography ship cp315 wheels, reportlab builds from its sdist; Odoo's one known break is `UpgradeHook.load_module`
+   in `odoo/modules/module.py` (3.15 no longer calls `load_module`); devkit-container's template hard-codes the
+   3.14 base image. Lazy imports must keep `odoo.*` eager (models register by import side effect), e.g. through
+   `sys.set_lazy_imports_filter` in the launcher. The memory gain is unmeasured.
+6. **Project structure**: to be discussed next.
