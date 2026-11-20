@@ -24,6 +24,10 @@ says otherwise.
    `ir.http.color_scheme()` always answers light and has no switch (Enterprise has both); the add-on adds a user-menu
    switch that sets the `color_scheme` cookie and overrides `color_scheme()` to honour it. Installed in the trial
    only; whether production installs it is open.
+   **It does nothing visible**: Community's dark bundle carries only per-widget touch-ups (~60 lines in `web`); the dark
+   palette itself (primary/secondary variables, Bootstrap overrides) is Enterprise's. OCA's `web_dark_mode` (AGPL-3,
+   18.0 and 19.0, not yet ported to 20.0) supplies it. Owner declined porting it for now (2026-11-20); when dark mode
+   comes back, the OCA port replaces `company_dark_mode`.
 
 ## Planned: Odoo fork
 
