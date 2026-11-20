@@ -7,13 +7,27 @@ services:
       args:
         GIT_REPO: https://github.com/AetherBreaker/ticketing-system.git
         GIT_TAG: v0.1.0
-    restart: no
+    restart: unless-stopped
     volumes:
       - type: bind
         source: /data/ticketing_system_files
         target: /app/persisted_data
+    expose:
+      - "8069"  # Odoo's HTTP port, for Coolify's proxy
+    environment:
+      - TZ=America/New_York
+      - DB_HOST=ticketing-postgres
+      - DB_PASSWORD=${POSTGRES_PASSWORD:?}
+      # Outgoing mail; an empty SMTP_HOST leaves Odoo without a mail server, so reminders queue unsent.
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SMTP_SSL=${SMTP_SSL:-}
+      - EMAIL_FROM=${EMAIL_FROM:-}
     networks:
       - coolify
+      - ticketing-db
     healthcheck:
       test:
         - CMD
@@ -23,7 +37,37 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    depends_on:
+      ticketing-postgres:
+        condition: service_healthy
+
+  # Not in [tool.docker].services: the official image, configured here. Not named `postgres`: the app also joins
+  # coolify, where Coolify's own database answers to that alias.
+  ticketing-postgres:
+    image: postgres:18.6
+    restart: unless-stopped
+    environment:
+      # Odoo refuses to connect as `postgres`, so the image's superuser is named odoo instead.
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?}
+      - POSTGRES_DB=postgres
+    volumes:
+      # Postgres 18 images keep their data in a versioned folder below /var/lib/postgresql.
+      - type: bind
+        source: /data/ticketing_system_postgres
+        target: /var/lib/postgresql
+        bind:
+          create_host_path: true
+    networks:
+      - ticketing-db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 networks:
   coolify:
     external: true
+  ticketing-db: {}

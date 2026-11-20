@@ -1,13 +1,16 @@
 """Entry point: run Odoo with this project's add-ons, configured from the environment."""
 
+# Standard library imports
 import os
 import sys
 import threading
 import time
 import urllib.request
 from datetime import UTC, datetime
+from http import HTTPStatus
 from pathlib import Path
 
+# Third party imports
 import odoo.cli
 
 ADDONS_DIR = Path(__file__).parent / "addons"
@@ -25,7 +28,7 @@ def _write_heartbeats() -> None:
   while True:
     try:
       with urllib.request.urlopen(f"http://127.0.0.1:{HTTP_PORT}/web/health", timeout=5) as response:
-        healthy = response.status == 200
+        healthy = response.status == HTTPStatus.OK
     except OSError:
       healthy = False
     if healthy:

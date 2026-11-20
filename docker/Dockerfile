@@ -8,6 +8,9 @@ WORKDIR /app
 # Sees neither git ARG, so its layers stay cached across releases: heavy, tag-independent steps
 # (e.g. compiling a C library) go here; COPY any repo file they need from the build context.
 # !window builder-cached:
+# Compiler and Postgres client headers: Odoo's psycopg2 dependency builds from source.
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential libpq-dev \
+  && rm -rf /var/lib/apt/lists/*
 # !end builder-cached
 
 ARG GIT_TAG
@@ -79,6 +82,9 @@ RUN groupadd --system --gid 999 nonroot \
 
 # Project additions to the final stage; setup-project renders the template around this window.
 # !window final:
+# The Postgres client library psycopg2 links against.
+RUN apt-get update && apt-get install -y --no-install-recommends libpq5 \
+  && rm -rf /var/lib/apt/lists/*
 # !end final
 
 WORKDIR /app

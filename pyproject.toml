@@ -5,10 +5,10 @@
   readme          = "README.md"
   requires-python = ">=3.14"
   dependencies    = [
+    "devkit-container>=2.3.1",
     # Odoo's dated source release; moving this pin is how an Odoo patch update ships.
-    "devkit-container>=2.3.1",                                                                                    # Odoo's dated source release; moving this pin is how an Odoo patch update ships.
     "odoo @ https://nightly.odoo.com/20.0/nightly/src/odoo_20.0.20261102.tar.gz",
-  ]                                                                                                               # setup-project added: "devkit-container"
+  ]
 
   [project.scripts]
     run-app-ticketing-system = "ticketing_system.__main__:run_app"
@@ -182,6 +182,8 @@
       # read to agents as statements of intent that were never reviewed. D2xx+ still apply to
       # docstrings a test does have.
       "tests/**" = ["D1"]
+      # Odoo reads a manifest as one bare dict literal: it is data, not a module.
+      "**/__manifest__.py" = ["B018", "D100"]
 
     [tool.ruff.lint.isort]
       combine-as-imports = true
