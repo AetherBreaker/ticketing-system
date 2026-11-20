@@ -54,6 +54,10 @@ All by email at minimum. **(owner, 2026-11-20)**
 1. **R5.1** Simple for staff to use, with no hours of training. **(owner, 2026-11-20; Jira is the counter-example)**
 2. **R5.2** No hours of experimentation to set up automations. **(owner, 2026-11-20)** R4.3 covers this for whoever
    administers the system.
+3. **R5.3** Interface modes, set per account, matched to how complex an interface the person can handle. Many
+   employees are not technically inclined and will stop using a system that looks too complex, so a simple mode
+   gives them only the bare minimum: receiving their tasks and reporting progress on them. **(owner, 2026-11-20:
+   "one likely big requirement")**
 
 ## 6. Cost
 
