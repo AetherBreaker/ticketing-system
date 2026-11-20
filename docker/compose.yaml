@@ -1,0 +1,29 @@
+services:
+  ticketing-system:
+    container_name: ticketing-system
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        GIT_REPO: https://github.com/AetherBreaker/ticketing-system.git
+        GIT_TAG: v0.1.0
+    restart: no
+    volumes:
+      - type: bind
+        source: /data/ticketing_system_files
+        target: /app/persisted_data
+    networks:
+      - coolify
+    healthcheck:
+      test:
+        - CMD
+        - /app/.venv/bin/devkit-container
+        - healthcheck
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  coolify:
+    external: true
