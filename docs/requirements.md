@@ -6,6 +6,8 @@ What the company needs from the ticketing system. Planning works from this docum
 
 - **(owner)**: stated by the owner, with the date.
 - **(open)**: not settled; needs the owner's answer before planning depends on it.
+- **(learn from use)**: a usage specific that can only be known once the system is in use and pain points show
+  **(owner, 2026-11-20)**. Listed in section 12; the initial build doesn't depend on them.
 
 How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisions.md), not here.
 
@@ -65,8 +67,7 @@ All by email at minimum. **(owner, 2026-11-20)**
 1. **R7.1** Reachable over the open internet, so people can use it away from the office. **(owner, 2026-11-20)**
 2. **R7.2** How people sign in. Needs a discussion; it is likely time for the company to move to a directory service
    for user provisioning. **(open; owner, 2026-11-20)**
-3. **R7.3** Staff will use it on phones. **(owner, 2026-11-20: "extremely likely")** Whether the mobile website is
-   enough is open.
+3. **R7.3** Staff will use it on phones. **(owner, 2026-11-20: "extremely likely")**
 
 ## 8. Branding
 
@@ -81,12 +82,11 @@ All by email at minimum. **(owner, 2026-11-20)**
    acceptable. **(owner, 2026-11-20)**
 3. **R9.3** Security fixes are taken promptly, since it is internet-facing. **(owner, 2026-11-20)**
 4. **R9.4** Once settled, new features over time are not expected to be needed. **(owner, 2026-11-20)**
-5. **R9.5** Backups. **(owner, 2026-11-20: "yes, most likely")** How much data loss is tolerable and how long
-   records are kept are open.
+5. **R9.5** Backups. **(owner, 2026-11-20: "yes, most likely")**
 6. **R9.6** Email goes through the company's Zoho Mail, and only within the company's own domain: every message is
-   to and from a Zoho Mail account. No plans to send reminders outside the domain. **(owner, 2026-11-20)** Zoho's
-   per-account daily sending limit for the company's plan, and whether replies to reminder emails should post onto
-   the task (which needs an inbox Odoo reads), are open.
+   to and from a Zoho Mail account. No plans to send reminders outside the domain. **(owner, 2026-11-20)**
+   To verify before go-live: Zoho's daily sending limit for the company's plan, against the expected volume
+   (a daily summary per person, up to ~130).
 
 ## 10. Codebase
 
@@ -104,3 +104,13 @@ All by email at minimum. **(owner, 2026-11-20)**
    managers, administrators) are open.
 2. **R11.2** Possibly used for the stores, either as one generic task tracker per store or with each store as a team
    and every store employee a user. **(owner, 2026-11-20: "maybe")** Which model, if any, is open.
+
+## 12. Learn from use
+
+Usage specifics to settle once the system is running and pain points show. **(owner, 2026-11-20)**
+
+1. What a reminder offset is measured from (only deadlines, or other dates and events), and where timings are set
+   (per task, per project, company-wide defaults).
+2. Whether the mobile website is enough on phones.
+3. Whether replies to reminder emails should post onto the task.
+4. How much data loss is tolerable, and how long records are kept.
