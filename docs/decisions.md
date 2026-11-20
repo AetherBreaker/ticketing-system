@@ -19,6 +19,11 @@ says otherwise.
    applies the release's rules and templates without a manual step.
 7. **Heartbeat from the launcher, probing `/web/health`** (Claude), for devkit-container's healthcheck. No `aeth_ext`
    yet (see open item 1).
+8. **Dark mode is its own add-on, `company_dark_mode`** (owner asked for it in the trial, 2026-11-20; separate module is
+   Claude's call, open to the structure discussion). Community ships the dark theme (`web.assets_web_dark`) but its
+   `ir.http.color_scheme()` always answers light and has no switch (Enterprise has both); the add-on adds a user-menu
+   switch that sets the `color_scheme` cookie and overrides `color_scheme()` to honour it. Installed in the trial
+   only; whether production installs it is open.
 
 ## Planned: Odoo fork
 
