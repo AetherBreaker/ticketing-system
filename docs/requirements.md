@@ -40,13 +40,17 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
    cases")**
 10. **R2.10** A progress bar or completion percentage is the least likely need. **(owner, 2026-11-23: "the rarest
     and least likely to be used or needed")**
+11. **R2.11** Ongoing tasks that never complete, kept as a list of general things to do when other work runs out.
+    Possibly just a flag set when creating the task, so it can't be marked complete and never leaves anyone's list.
+    **(owner, 2026-11-23)**
 
 ## 3. Reminders
 
 All by email at minimum. **(owner, 2026-11-20)**
 
 1. **R3.1** Before a deadline. **(owner, 2026-11-20)**
-2. **R3.2** Repeating tasks that recreate themselves on a schedule. **(owner, 2026-11-20)**
+2. **R3.2** Repeating tasks that recreate themselves on a schedule, optional per task, e.g. weekly on a set day.
+   **(owner, 2026-11-20; example, 2026-11-23)**
 3. **R3.3** Nagging every day until the task is done. **(owner, 2026-11-20)**
 4. **R3.4** Escalation to a manager when a task is overdue. **(owner, 2026-11-20)**
 5. **R3.5** Reminders on individual steps, for some tasks. **(owner, 2026-11-20: "potentially, depends on the task")**
@@ -57,6 +61,8 @@ All by email at minimum. **(owner, 2026-11-20)**
    1. a time offset (e.g. a duration before a deadline);
    2. a cron-like schedule;
    3. an exact date and time.
+8. **R3.8** People hear of a new task by email, and from the web page, which they can be expected to check often.
+   Mobile push may follow the first release (R3.6). **(owner, 2026-11-23)**
 
 ## 4. Administration and oversight
 
@@ -75,11 +81,12 @@ All by email at minimum. **(owner, 2026-11-20)**
    gives them only the bare minimum: receiving their tasks and reporting progress on them. **(owner, 2026-11-20:
    "one likely big requirement")** From the interview **(owner, 2026-11-23)**:
    1. No screen these employees already use sets the bar.
-   2. A mode changes the interface, not what an account can see: a simple-mode account sees every task its access
-      allows, like any other account.
-   3. Simple mode includes creating tasks, for now, through creation menus kept simple. Whether that holds for every
-      simple-mode account or only those whose role may create (R11.3) is **(open)**.
-   4. How many modes there are, and who sets an account's mode, are **(open)**.
+   2. A mode is independent of role and changes only the interface: simple mode omits things the account could
+      otherwise see or do, but a simple-mode account still sees every task its access allows.
+   3. Managers and regular accounts can be put in simple mode; administrators cannot. A manager in simple mode still
+      creates tasks, through creation menus kept simple.
+   4. Two modes, simple and full, with an administrator setting each account's mode. **(Claude's reading of "can be
+      put in"; to confirm)**
 
 ## 6. Cost
 
@@ -131,14 +138,16 @@ All by email at minimum. **(owner, 2026-11-20)**
    and every store employee a user. **(owner, 2026-11-20: "maybe")** Which model, if any, is open.
 3. **R11.3** Roles **(owner, 2026-11-23)**:
    1. administrators and managers create and assign tasks;
-   2. a regular account completes or updates existing tasks and never creates one. Whether that also bars adding
-      steps or checklist items to a task assigned to them is **(open)**.
+   2. a regular account completes or updates existing tasks and never creates one;
+   3. being assigned a task grants no right to edit it beyond reporting progress; any other edit right comes from
+      the account's role.
 4. **R11.4** Deleting a task **(owner, 2026-11-23)**:
-   1. only its creator or an administrator can delete it;
-   2. preferably, once progress has been posted on it, only an administrator can;
-   3. but someone who made a mistake creating a task must not be hindered from deleting it.
-
-   How to meet 2 and 3 together is **(open)**.
+   1. Deleting archives the task by default. An administrator can restore an archived task or delete it for good,
+      and can also delete a task for good straight away.
+   2. Only the task's creator or an administrator can delete it.
+   3. The creator's right is limited by two rules: until progress is posted on the task, and within a grace period
+      after creating it. Wanted: some restriction once progress is posted, without hindering someone who made a
+      mistake creating the task. How the two rules combine, and what counts as progress, are **(open)**.
 
 ## 12. Learn from use
 
@@ -149,3 +158,4 @@ Usage specifics to settle once the system is running and pain points show. **(ow
 2. Whether the mobile website is enough on phones.
 3. Whether replies to reminder emails should post onto the task.
 4. How much data loss is tolerable, and how long records are kept.
+5. How long the grace period for deleting a task lasts (R11.4).
