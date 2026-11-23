@@ -16,6 +16,7 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
 1. A shared system for tracking the company's work as tasks, assigned to individual people, with automated
    reminders so tasks don't slip. **(owner, 2026-11-20)**
 2. Reminders are the most important capability. **(owner, 2026-11-20)**
+3. Today work is handed out by word of mouth and the occasional printed checklist. **(owner, 2026-11-23)**
 
 ## 2. Work tracking
 
@@ -24,6 +25,21 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
 3. **R2.3** Projects group tasks; who can see which project is controllable. **(owner, 2026-11-20)**
 4. **R2.4** Time tracking on tasks. **(owner, 2026-11-20)**
 5. **R2.5** A step can have its own assignee and its own deadline; both are optional. **(owner, 2026-11-20)**
+6. **R2.6** Tasks differ in shape, and progress is reported to match **(owner, 2026-11-23)**:
+   1. done or not done;
+   2. a series of steps;
+   3. pieces, each delegated to a specific person, where each piece is itself done or not done, or has its own
+      steps to check off;
+   4. a checklist of items, e.g. every part and peripheral a new POS build needs.
+7. **R2.7** Task lists that repeat on demand, not on a schedule (R3.2 covers scheduled repeats). The example is
+   opening a new store, whose pieces go to people across the company: office staff (paperwork, permit applications,
+   the store's vendor accounts), interior setup, and IT (building the POS, preparing the computers and devices).
+   **(owner, 2026-11-23)**
+8. **R2.8** Comments and photos on tasks, now and then. **(owner, 2026-11-23: "definitely")**
+9. **R2.9** A task can require a photo before it can be marked complete. **(owner, 2026-11-23: "useful for certain
+   cases")**
+10. **R2.10** A progress bar or completion percentage is the least likely need. **(owner, 2026-11-23: "the rarest
+    and least likely to be used or needed")**
 
 ## 3. Reminders
 
@@ -57,7 +73,13 @@ All by email at minimum. **(owner, 2026-11-20)**
 3. **R5.3** Interface modes, set per account, matched to how complex an interface the person can handle. Many
    employees are not technically inclined and will stop using a system that looks too complex, so a simple mode
    gives them only the bare minimum: receiving their tasks and reporting progress on them. **(owner, 2026-11-20:
-   "one likely big requirement")**
+   "one likely big requirement")** From the interview **(owner, 2026-11-23)**:
+   1. No screen these employees already use sets the bar.
+   2. A mode changes the interface, not what an account can see: a simple-mode account sees every task its access
+      allows, like any other account.
+   3. Simple mode includes creating tasks, for now, through creation menus kept simple. Whether that holds for every
+      simple-mode account or only those whose role may create (R11.3) is **(open)**.
+   4. How many modes there are, and who sets an account's mode, are **(open)**.
 
 ## 6. Cost
 
@@ -69,7 +91,8 @@ All by email at minimum. **(owner, 2026-11-20)**
 1. **R7.1** Reachable over the open internet, so people can use it away from the office. **(owner, 2026-11-20)**
 2. **R7.2** How people sign in. Needs a discussion; it is likely time for the company to move to a directory service
    for user provisioning. **(open; owner, 2026-11-20)**
-3. **R7.3** Staff will use it on phones. **(owner, 2026-11-20: "extremely likely")**
+3. **R7.3** Staff use it on Windows desktops and on Android and iOS phones. **(owner, 2026-11-20: phones "extremely
+   likely"; the device list, 2026-11-23)**
 
 ## 8. Branding
 
@@ -102,10 +125,20 @@ All by email at minimum. **(owner, 2026-11-20)**
 
 ## 11. People
 
-1. **R11.1** Roughly 20 people to start, possibly as many as 130. **(owner, 2026-11-20)** The roles (staff,
-   managers, administrators) are open.
+1. **R11.1** Roughly 20 people to start, possibly as many as 130. **(owner, 2026-11-20)** For now mostly the
+   corporate office. **(owner, 2026-11-23)**
 2. **R11.2** Possibly used for the stores, either as one generic task tracker per store or with each store as a team
    and every store employee a user. **(owner, 2026-11-20: "maybe")** Which model, if any, is open.
+3. **R11.3** Roles **(owner, 2026-11-23)**:
+   1. administrators and managers create and assign tasks;
+   2. a regular account completes or updates existing tasks and never creates one. Whether that also bars adding
+      steps or checklist items to a task assigned to them is **(open)**.
+4. **R11.4** Deleting a task **(owner, 2026-11-23)**:
+   1. only its creator or an administrator can delete it;
+   2. preferably, once progress has been posted on it, only an administrator can;
+   3. but someone who made a mistake creating a task must not be hindered from deleting it.
+
+   How to meet 2 and 3 together is **(open)**.
 
 ## 12. Learn from use
 
