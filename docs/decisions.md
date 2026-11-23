@@ -42,16 +42,35 @@ says otherwise.
      install-then-remove work (downtime matters). The fork deletes them from its source tree, which keeps the tree
      easy to navigate (owner, 2026-11-23). 29 of Odoo's 698 modules remain.
    - `resource_mail` is dropped too (owner, 2026-11-23).
-   - Odoo's live install, upgrade and uninstall actions become stubs in the fork's code, where that doesn't break
-     anything (owner, 2026-11-23).
-   - Modules kept only because a kept module depends on them (owner, 2026-11-23; surveyed before the fork is set up):
-     the SMS chain (`sms`, `iap_mail`, `iap`, `phone_validation`) is cut if the seam is easy, since SMS may be adopted
-     later; `digest` is carved out; `rating` and `portal_rating` are cut; `web_tour` probably; `analytic` and `uom`
-     undecided.
+   - `auth_ldap` stays in the fork, for directory sign-in later (owner, 2026-11-23; R7.2). It needs only `base` and
+     `base_setup`, and its `python-ldap` library is Odoo's optional `ldap` extra, needed only once it is installed.
+   - Odoo's live install, upgrade and uninstall actions become stubs in the fork's code (owner, 2026-11-23). Startup's
+     `-i`/`-u` uses separate methods, so it is unaffected: stub `_button_immediate_function` (behind the Apps screen,
+     Settings checkboxes and the uninstall wizard) and the upgrade wizard, and mark `button_install`,
+     `button_upgrade` and `button_uninstall` `@api.private` so a browser session can't queue a change for the next
+     restart. About 5 small changes in 3 files.
+   - Settings that involve a module we've cut are removed (owner, 2026-11-23).
+   - Cut from the modules that are kept only because a kept module depends on them (owner, 2026-11-23, after a
+     survey of the edits each cut needs in the modules we keep):
+     - `digest`: easy; its own files in `project` and `base_automation`, two manifest lines, one import.
+     - SMS chain (`sms`, `iap_mail`, `iap`, `phone_validation`): easy. `base_automation` depends on it in one
+       manifest line; `html_editor` uses IAP for two paid online features (AI text, Google translation), which go
+       with it. Adopting SMS later means restoring these or connecting another provider in our add-on.
+     - `web_tour`: small in code (two tours, two manifests, 3 lines in `portal`), but it is Odoo's browser-test
+       runner; 51 tour-based test files in kept modules go with it (see item 11).
+     - `analytic`, `uom`: moderate; about 10 edits in `project_project.py` plus whole files. Nothing we need uses them.
+   - `rating`, `portal_rating`: owner leaning toward cutting (2026-11-23), so that nothing about customer ratings is
+     left in the interface. Large: 222 lines in 16 `project` files, in the files upstream changes most, so rebases
+     will conflict there.
 10. **Tickets are ordinary tasks; no helpdesk module** (owner, 2026-11-23). Odoo's Helpdesk is Enterprise (paid per
     user) and OCA's `helpdesk_mgmt` is not yet ported to 20.0 and keeps tickets apart from tasks. Email intake polls a
     Zoho inbox (such as IT's) and makes each new email a task in a team's queue; recategorizing is a team change,
     which the task's history records.
+11. **Browser tests use Playwright, not Odoo's tours** (Claude, at the owner's request, 2026-11-23). Written in Python
+    under pytest like the rest of the project, run in Firefox, and test what users see, interface modes included,
+    from outside the product, so no test machinery ships in it. Tours need Chrome and `web_tour` in the build.
+    Server logic keeps Odoo's own Python tests, which need no browser. Cost: a harness that starts Odoo on a fresh
+    database, where a tour gets a rolled-back transaction for free.
 
 ## Planned: Odoo fork
 
