@@ -11,8 +11,9 @@ says otherwise.
 2. **Public repository, devkit-managed** (owner, 2026-11-20).
 3. **Reachable from the open internet** (owner, 2026-11-20), so releases with security fixes are taken promptly.
 4. **Odoo's source becomes our own fork in its own repository** (owner, 2026-11-20), so we can patch Odoo's files and own
-   its packaging and pipeline. Planned, not set up yet; see **Planned: Odoo fork** below. Until then the dependency
-   is Odoo's dated source release, pinned in `pyproject.toml`.
+   its packaging and pipeline. Not set up yet, but needed before the first release, which builds on it (item 9;
+   owner, 2026-11-23); see **Planned: Odoo fork** below. Until then the dependency is Odoo's dated source release,
+   pinned in `pyproject.toml`.
 5. **Trial data lives in its own module, `company_tasks_trial`** (Claude): the Mailpit mail server and sample
    users/tasks must never reach production, where `company_tasks` alone is installed.
 6. **The launcher installs `company_tasks` on a fresh database and updates it on every start** (Claude), so a deploy
@@ -36,11 +37,15 @@ says otherwise.
      `google_gmail`, `microsoft_outlook`, `hr_skills`, `project_hr_skills`, the spreadsheet and dashboard modules,
      `web_unsplash`, `api_doc`, `rpc`, `base_import_module`, `base_install_request`, `mysubscription`,
      `privacy_lookup`, `base_report_wkhtmltox`, `portal_discuss`.
-   - How the dropped ones are kept out is open; it must ship through releases (R4.4).
+   - They are kept out by removing them from Odoo itself, in our fork, from the very beginning (owner, 2026-11-23).
+     The stripped fork is the base we build on: nothing outside our list exists to install, and a redeploy does no
+     install-then-remove work (downtime matters). Whether the fork strips them in its source tree or in its build
+     is open.
 
 ## Planned: Odoo fork
 
 - A repository holding Odoo's 20.0 branch plus our patches, tracking upstream so its security fixes merge in.
+- Ships only the modules we use (item 9), from the first release on.
 - Its own pipeline builds Odoo's wheel (pure Python, so one wheel serves Linux and Windows) and publishes it to
   SFTPyPI; this project then depends on that version instead of the source tarball, a one-line change here.
 - Side benefit: no more building Odoo from source on each machine (minutes on Windows).
