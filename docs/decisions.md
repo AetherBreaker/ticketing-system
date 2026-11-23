@@ -41,6 +41,17 @@ says otherwise.
      The stripped fork is the base we build on: nothing outside our list exists to install, and a redeploy does no
      install-then-remove work (downtime matters). The fork deletes them from its source tree, which keeps the tree
      easy to navigate (owner, 2026-11-23). 29 of Odoo's 698 modules remain.
+   - `resource_mail` is dropped too (owner, 2026-11-23).
+   - Odoo's live install, upgrade and uninstall actions become stubs in the fork's code, where that doesn't break
+     anything (owner, 2026-11-23).
+   - Modules kept only because a kept module depends on them (owner, 2026-11-23; surveyed before the fork is set up):
+     the SMS chain (`sms`, `iap_mail`, `iap`, `phone_validation`) is cut if the seam is easy, since SMS may be adopted
+     later; `digest` is carved out; `rating` and `portal_rating` are cut; `web_tour` probably; `analytic` and `uom`
+     undecided.
+10. **Tickets are ordinary tasks; no helpdesk module** (owner, 2026-11-23). Odoo's Helpdesk is Enterprise (paid per
+    user) and OCA's `helpdesk_mgmt` is not yet ported to 20.0 and keeps tickets apart from tasks. Email intake polls a
+    Zoho inbox (such as IT's) and makes each new email a task in a team's queue; recategorizing is a team change,
+    which the task's history records.
 
 ## Planned: Odoo fork
 

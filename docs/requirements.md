@@ -57,8 +57,8 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
     3. Stores often send an issue to the wrong place, so managers and above can recategorize a ticket. That moves it
        to the newly assigned team's queue, and likely leaves a breadcrumb on the ticket showing where it was first
        sent.
-    4. Store tickets are separate from the baseline system and not needed immediately, so they must not hold up its
-       release. A store interface other than email comes some time after the first version.
+    4. Email intake is part of the first release. A store interface other than email comes some time after it and
+       must not hold it up.
 
 ## 3. Reminders
 
