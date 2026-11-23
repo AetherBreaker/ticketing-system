@@ -49,6 +49,13 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
        report progress.
     3. A task can have more than one team and more than one individual assigned.
     4. Each step follows the same pattern, with its own teams and individuals.
+13. **R2.13** Tickets from the stores **(owner, 2026-11-23)**:
+    1. A store can open a ticket with the corporate office about an issue it's having: by emailing an inbox such as
+       IT's, which creates the ticket automatically, or through a special interface for stores (see R11.2).
+    2. A ticket is basically a task: it appears in the relevant team's queue just as tasks do.
+    3. Stores often send an issue to the wrong place, so managers and above can recategorize a ticket. That moves it
+       to the newly assigned team's queue, and likely leaves a breadcrumb on the ticket showing where it was first
+       sent.
 
 ## 3. Reminders
 
@@ -139,6 +146,7 @@ All by email at minimum. **(owner, 2026-11-20)**
    TypeScript for the browser side is fine. **(owner, 2026-11-20)**
 4. **R10.4** Python 3.15, for lazy imports. **(owner interested, 2026-11-20; not now)**
 5. **R10.5** Running under Python's optimize mode. **(owner interested, 2026-11-20; not decided)**
+6. **R10.6** Start minimal: only the Odoo modules relevant to task tracking are installed. **(owner, 2026-11-23)**
 
 ## 11. People
 
