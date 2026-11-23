@@ -43,6 +43,12 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
 11. **R2.11** Ongoing tasks that never complete, kept as a list of general things to do when other work runs out.
     Possibly just a flag set when creating the task, so it can't be marked complete and never leaves anyone's list.
     **(owner, 2026-11-23)**
+12. **R2.12** Teams with shared task queues **(owner, 2026-11-23)**:
+    1. A task assigned to a team appears in the queue of everyone on it, and any of them can report progress on it.
+    2. A task's assignees are always the union of its teams' members and its individual assignees; all of them can
+       report progress.
+    3. A task can have more than one team and more than one individual assigned.
+    4. Each step follows the same pattern, with its own teams and individuals.
 
 ## 3. Reminders
 
@@ -85,8 +91,7 @@ All by email at minimum. **(owner, 2026-11-20)**
       otherwise see or do, but a simple-mode account still sees every task its access allows.
    3. Managers and regular accounts can be put in simple mode; administrators cannot. A manager in simple mode still
       creates tasks, through creation menus kept simple.
-   4. Two modes, simple and full, with an administrator setting each account's mode. **(Claude's reading of "can be
-      put in"; to confirm)**
+   4. Two modes, simple and full. Only an administrator can change an account's mode.
 
 ## 6. Cost
 
@@ -145,9 +150,10 @@ All by email at minimum. **(owner, 2026-11-20)**
    1. Deleting archives the task by default. An administrator can restore an archived task or delete it for good,
       and can also delete a task for good straight away.
    2. Only the task's creator or an administrator can delete it.
-   3. The creator's right is limited by two rules: until progress is posted on the task, and within a grace period
-      after creating it. Wanted: some restriction once progress is posted, without hindering someone who made a
-      mistake creating the task. How the two rules combine, and what counts as progress, are **(open)**.
+   3. The creator can delete it only while no progress has been posted on it and while still within a grace period
+      after creating it. Progress is anything someone other than the creator posts on the task: a ticked step or
+      checklist item, a status change, a comment, a photo, or logged time. The aim: a restriction once others' work
+      is on the task, without hindering someone who made a mistake creating it.
 
 ## 12. Learn from use
 
@@ -159,3 +165,5 @@ Usage specifics to settle once the system is running and pain points show. **(ow
 3. Whether replies to reminder emails should post onto the task.
 4. How much data loss is tolerable, and how long records are kept.
 5. How long the grace period for deleting a task lasts (R11.4).
+6. Which members of a team get reminders for a task assigned to the team. As assignees (R2.12) all of them would,
+   which may prove noisy.
