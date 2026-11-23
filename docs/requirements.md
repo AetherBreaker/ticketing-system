@@ -91,7 +91,12 @@ All by email at minimum. **(owner, 2026-11-20)**
       otherwise see or do, but a simple-mode account still sees every task its access allows.
    3. Managers and regular accounts can be put in simple mode; administrators cannot. A manager in simple mode still
       creates tasks, through creation menus kept simple.
-   4. Two modes, simple and full. Only an administrator can change an account's mode.
+   4. Two modes, simple and full, to start; more tiers may be added. Only an administrator can change an account's
+      mode.
+   5. Each mode is defined in one container (e.g. one file per mode; the format doesn't matter, the pattern does):
+      a list of what it omits, and a list of interface elements it replaces, each naming the alternate element or
+      class that replaces it. Everything a mode changes lives in that one definition, so a new tier is a new
+      definition.
 
 ## 6. Cost
 
