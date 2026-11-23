@@ -39,19 +39,22 @@ says otherwise.
      `privacy_lookup`, `base_report_wkhtmltox`, `portal_discuss`.
    - They are kept out by removing them from Odoo itself, in our fork, from the very beginning (owner, 2026-11-23).
      The stripped fork is the base we build on: nothing outside our list exists to install, and a redeploy does no
-     install-then-remove work (downtime matters). Whether the fork strips them in its source tree or in its build
-     is open.
+     install-then-remove work (downtime matters). The fork deletes them from its source tree, which keeps the tree
+     easy to navigate (owner, 2026-11-23). 29 of Odoo's 698 modules remain.
 
 ## Planned: Odoo fork
 
-- A repository holding Odoo's 20.0 branch plus our patches, tracking upstream so its security fixes merge in.
-- Ships only the modules we use (item 9), from the first release on.
+- A repository holding Odoo's 20.0 branch plus our patches, rebased onto upstream now and then, mainly for fixes that
+  could compromise the server (R9.3; owner, 2026-11-23).
+- Ships only the modules we use (item 9), from the first release on. A release step runs a script that accounts for
+  our module deletions (owner, 2026-11-23).
+- Devkit-managed (owner: "almost certainly"), but not self-deployable: devkit-container's features are off and it
+  has no Docker setup (owner, 2026-11-23).
 - Its own pipeline builds Odoo's wheel (pure Python, so one wheel serves Linux and Windows) and publishes it to
   SFTPyPI; this project then depends on that version instead of the source tarball, a one-line change here.
 - Side benefit: no more building Odoo from source on each machine (minutes on Windows).
-- To decide when it is set up: whether devkit manages the fork (Odoo builds with setuptools, not uv), the
-  version/tag scheme for our patch releases, and how upstream merges are proposed (e.g. a scheduled workflow
-  opening a pull request).
+- To decide when it is set up: the version/tag scheme for our patch releases, and how devkit fits a project that
+  Odoo builds with setuptools.
 
 ## Open
 

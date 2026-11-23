@@ -135,7 +135,9 @@ All by email at minimum. **(owner, 2026-11-20)**
 1. **R9.1** Self-hosted. **(owner, 2026-11-20)**
 2. **R9.2** Runs on the company's Coolify server. That server is low-end (2 GB, already swapping); upgrading it is
    acceptable. **(owner, 2026-11-20)**
-3. **R9.3** Security fixes are taken promptly, since it is internet-facing. **(owner, 2026-11-20)**
+3. **R9.3** Security fixes are taken promptly, since it is internet-facing. **(owner, 2026-11-20)** Narrowed: it is only
+   task tracking, so the real concern is anything that could compromise the server it runs on; syncing with upstream
+   Odoo is therefore infrequent. **(owner, 2026-11-23)**
 4. **R9.4** Once settled, new features over time are not expected to be needed. **(owner, 2026-11-20)**
 5. **R9.5** Backups. **(owner, 2026-11-20: "yes, most likely")**
 6. **R9.6** Email goes through the company's Zoho Mail, and only within the company's own domain: every message is
@@ -153,6 +155,8 @@ All by email at minimum. **(owner, 2026-11-20)**
 4. **R10.4** Python 3.15, for lazy imports. **(owner interested, 2026-11-20; not now)**
 5. **R10.5** Running under Python's optimize mode. **(owner interested, 2026-11-20; not decided)**
 6. **R10.6** Start minimal: only the Odoo modules relevant to task tracking are installed. **(owner, 2026-11-23)**
+7. **R10.7** What ships is stripped down to only what is used: it isn't a CRM, and it has no Apps menu. The system never
+   installs a module while live. **(owner, 2026-11-23: "NEVER … Period.")**
 
 ## 11. People
 
