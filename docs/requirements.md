@@ -23,7 +23,8 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
 1. **R2.1** Tasks, each assignable to an individual person. **(owner, 2026-11-20)**
 2. **R2.2** A task can be broken into individual steps whose completion is tracked. **(owner, 2026-11-20)**
 3. **R2.3** Projects group tasks; who can see which project is controllable. **(owner, 2026-11-20)**
-4. **R2.4** Time tracking on tasks. **(owner, 2026-11-20)**
+4. ~~**R2.4** Time tracking on tasks.~~ Struck **(owner, 2026-11-23)**: the office's own timeclock system covers it;
+   the two can be integrated later if ever needed.
 5. **R2.5** A step can have its own assignee and its own deadline; both are optional. **(owner, 2026-11-20)**
 6. **R2.6** Tasks differ in shape, and progress is reported to match **(owner, 2026-11-23)**:
    1. done or not done;
@@ -56,6 +57,8 @@ How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisio
     3. Stores often send an issue to the wrong place, so managers and above can recategorize a ticket. That moves it
        to the newly assigned team's queue, and likely leaves a breadcrumb on the ticket showing where it was first
        sent.
+    4. Store tickets are separate from the baseline system and not needed immediately, so they must not hold up its
+       release. A store interface other than email comes some time after the first version.
 
 ## 3. Reminders
 
@@ -83,6 +86,9 @@ All by email at minimum. **(owner, 2026-11-20)**
 2. **R4.2** Audit logs of important actions. **(owner, 2026-11-20)**
 3. **R4.3** Automations and configuration are set up by Claude in code, not by hand in the interface.
    **(owner, 2026-11-20: "such a massive time saver")**
+4. **R4.4** Changes to the interface and configuration, installed modules included, ship only as redeploys triggered by
+   new GitHub releases, through the same release workflow as the company's other projects. Everything is declarative
+   and reproducible; nothing relies on live state that a careless redeploy could lose. **(owner, 2026-11-23)**
 
 ## 5. Simplicity
 

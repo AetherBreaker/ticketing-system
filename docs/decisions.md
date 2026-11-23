@@ -28,6 +28,15 @@ says otherwise.
    palette itself (primary/secondary variables, Bootstrap overrides) is Enterprise's. OCA's `web_dark_mode` (AGPL-3,
    18.0 and 19.0, not yet ported to 20.0) supplies it. Owner declined porting it for now (2026-11-20); when dark mode
    comes back, the OCA port replaces `company_dark_mode`.
+9. **Odoo modules: minimal** (owner, 2026-11-23; requirement R10.6).
+   - No time tracking: `hr_timesheet` is dropped (R2.4 struck), and with it the Employees app and its extras.
+   - Kept from what Odoo auto-installs: `auth_totp` and `auth_passkey` (with their portal and mail parts) for
+     two-factor and passkey sign-in, and `base_import`.
+   - Dropped from what Odoo auto-installs: `project_todo`, `project_sms`, `partner_autocomplete`, `mail_bot`,
+     `google_gmail`, `microsoft_outlook`, `hr_skills`, `project_hr_skills`, the spreadsheet and dashboard modules,
+     `web_unsplash`, `api_doc`, `rpc`, `base_import_module`, `base_install_request`, `mysubscription`,
+     `privacy_lookup`, `base_report_wkhtmltox`, `portal_discuss`.
+   - How the dropped ones are kept out is open; it must ship through releases (R4.4).
 
 ## Planned: Odoo fork
 
