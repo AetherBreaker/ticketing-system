@@ -50,14 +50,16 @@ says otherwise.
     memory during deploys. `release-and-pin` watches the whole release run (`gh run watch`), so the pin waits for
     the build, and a failed build blocks it. Not bundled into the wheel (owner, 2026-11-24): that needed devkit
     changes at both ends (a pre-build step in the release template, and installing from SFTPyPI in the image).
+15. **Background work: one worker process beside the web server** (owner, 2026-11-24). It runs only our code: the
+    scheduler, Zoho inbox polling, and dispatching events. Each automation run gets its own short-lived child
+    process with a time limit, so a hung run is killed and logged as failed and a crash ends only that run; a cap
+    (2 to start) limits how many run at once.
 
 ## Open
 
 1. **Project structure**: to be discussed next.
-2. **Background work**: Claude recommends a second process, so an imported Python automation that hangs or crashes
-   can't take the web server down with it. Not a second image build (owner, 2026-11-24): devkit's compose template
-   gives every listed service its own `build:` of the same Dockerfile. Open: the app supervising the worker itself,
-   devkit-container supervising it, or a second service reusing the first's image.
+2. **Where the worker is supervised**, with one image build (owner, 2026-11-24: no second build): the app's own
+   start-up script, devkit-container, or a second service reusing the first's image.
 3. **Photo storage**: Postgres (owner's likely pick, with a storage upgrade) or external storage; upload limits
    apply either way.
 4. **Automation design** (R4.5): its own discussion, under the owner's criteria.
