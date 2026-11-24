@@ -9,7 +9,7 @@ What the company needs from the ticketing system. Planning works from this docum
 - **(learn from use)**: a usage specific that can only be known once the system is in use and pain points show
   **(owner, 2026-11-20)**. Listed in section 12; the initial build doesn't depend on them.
 
-How these are met (Odoo, the fork, devkit) is recorded in [decisions.md](decisions.md), not here.
+How these are met (the stack, devkit) is recorded in [decisions.md](decisions.md), not here.
 
 ## 1. Purpose
 
@@ -86,11 +86,21 @@ All by email at minimum. **(owner, 2026-11-20)**
 2. **R4.2** Audit logs of important actions. **(owner, 2026-11-20)**
 3. **R4.3** Automations and configuration are set up by Claude in code, not by hand in the interface.
    **(owner, 2026-11-20: "such a massive time saver")**
-4. **R4.4** Changes to the interface and configuration, installed modules included, ship only as redeploys triggered by
-   new GitHub releases, through the same release workflow as the company's other projects. Everything is declarative
-   and reproducible; nothing relies on live state that a careless redeploy could lose. **(owner, 2026-11-23)**
-5. **R4.5** An automation builder in the interface, so people other than the owner can build automations.
-   **(owner, 2026-11-24)** Who can build them, what they can do, and how they square with R4.4 are **(open)**.
+4. **R4.4** Changes to the interface and configuration ship only as redeploys triggered by new GitHub releases,
+   through the same release workflow as the company's other projects. Everything is declarative and reproducible;
+   nothing relies on live state that a careless redeploy could lose. **(owner, 2026-11-23)** Automations built or
+   imported in the interface (R4.5) are the exception: they are data, like tasks.
+5. **R4.5** An automation builder in the interface, so people other than the owner can build automations
+   **(owner, 2026-11-24)**:
+   1. The editor is where complexity is the biggest risk, so its design follows two criteria: there is generally
+      one way to do a thing, never more; and that one way is simple and versatile enough that a second is never
+      needed.
+   2. Automations create and assign tasks, their primary use, as well as send reminders.
+   3. Built live in the interface and stored as data; a proven one can be exported into code.
+   4. Advanced automations are plain Python files imported through the interface. We choose which imports they get
+      and leave it at that: security comes from controlling who is an administrator, not from restricting the
+      automations.
+   5. Builders: likely administrators only. **(owner leaning)**
 
 ## 5. Simplicity
 
@@ -138,8 +148,7 @@ All by email at minimum. **(owner, 2026-11-20)**
 2. **R9.2** Runs on the company's Coolify server. That server is low-end (2 GB, already swapping); upgrading it is
    acceptable. **(owner, 2026-11-20)**
 3. **R9.3** Security fixes are taken promptly, since it is internet-facing. **(owner, 2026-11-20)** Narrowed: it is only
-   task tracking, so the real concern is anything that could compromise the server it runs on; syncing with upstream
-   Odoo is therefore infrequent. **(owner, 2026-11-23)**
+   task tracking, so the real concern is anything that could compromise the server it runs on. **(owner, 2026-11-23)**
 4. **R9.4** Once settled, new features over time are not expected to be needed. **(owner, 2026-11-20)**
 5. **R9.5** Backups. **(owner, 2026-11-20: "yes, most likely")**
 6. **R9.6** Email goes through the company's Zoho Mail, and only within the company's own domain: every message is
@@ -150,15 +159,15 @@ All by email at minimum. **(owner, 2026-11-20)**
 ## 10. Codebase
 
 1. **R10.1** A public repository, managed by devkit. **(owner, 2026-11-20)**
-2. **R10.2** We own and can modify the foundation's source, Odoo's core files included, with our own packaging
-   and pipeline, likely in its own repository. **(owner, 2026-11-20)**
+2. **R10.2** We own and can modify the foundation's source, with our own packaging and pipeline.
+   **(owner, 2026-11-20)**
 3. **R10.3** Code in languages the owner knows (Python or Rust) and that Claude is well trained in; JavaScript or
    TypeScript for the browser side is fine. **(owner, 2026-11-20)**
 4. **R10.4** Python 3.15, for lazy imports. **(owner interested, 2026-11-20; not now)**
 5. **R10.5** Running under Python's optimize mode. **(owner interested, 2026-11-20; not decided)**
-6. **R10.6** Start minimal: only the Odoo modules relevant to task tracking are installed. **(owner, 2026-11-23)**
-7. **R10.7** What ships is stripped down to only what is used: it isn't a CRM, and it has no Apps menu. The system never
-   installs a module while live. **(owner, 2026-11-23: "NEVER … Period.")**
+6. **R10.6** Start minimal: only what is relevant to task tracking. **(owner, 2026-11-23)**
+7. **R10.7** What ships is stripped down to only what is used: it isn't a CRM. Nothing is installed into the system
+   while live. **(owner, 2026-11-23: "NEVER … Period.")**
 
 ## 11. People
 
