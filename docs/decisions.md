@@ -19,10 +19,23 @@ says otherwise.
 6. **Database: Postgres** (owner, 2026-11-24). Coolify runs it and backs it up on a schedule. Automations built or
    imported in the interface (R4.5) are stored in it as their Python source and loaded from there (owner,
    2026-11-24), so its backups cover them.
+7. **Backend: Django** (owner, 2026-11-24), for its mature sign-in, sessions, CSRF protection, migrations and admin
+   panel, so we don't secure those ourselves.
+8. **Frontend: Django serves a JSON API to a separate frontend app** (owner, 2026-11-24). Chosen over Inertia, and
+   over server-rendered pages with HTMX (too limiting for designing the frontend). Inertia's estimate was 10–15% less
+   development time, but Claude's experience with the API pattern makes it the safer bet: its extra cost is
+   predictable, while Inertia's Django adapter trails Inertia by months and its v3 support postdates Claude's
+   training. Safeguards for the spec: one shared visibility rule and one shared edit rule used by every endpoint;
+   TypeScript types generated from the API; one fixed way to refresh data after a change; a reload prompt when a
+   deploy has made an open page out of date.
+9. **API library: Django Ninja** (Claude, at the owner's request, 2026-11-24), over Django REST Framework. Typed
+   Pydantic request and response definitions, which suit pyright and generate the API description the TypeScript
+   types come from; it lists Django 6.1 and Python 3.15 support, where `drf-spectacular` (DRF's API description)
+   doesn't yet list Django 6.1.
 
 ## Open
 
-1. **Stack**: to decide next. Claude's proposal (not approved): Django with server-rendered pages.
+1. **Frontend tools**: the framework, the data-fetching and navigation libraries, and how the built app is served.
 2. **Project structure**: after the stack.
 3. **Automation design** (R4.5): its own discussion, under the owner's criteria.
 4. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
