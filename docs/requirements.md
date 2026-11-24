@@ -36,7 +36,8 @@ How these are met (the stack, devkit) is recorded in [decisions.md](decisions.md
    opening a new store, whose pieces go to people across the company: office staff (paperwork, permit applications,
    the store's vendor accounts), interior setup, and IT (building the POS, preparing the computers and devices).
    **(owner, 2026-11-23)**
-8. **R2.8** Comments and photos on tasks, now and then. **(owner, 2026-11-23: "definitely")**
+8. **R2.8** Comments and photos on tasks, now and then. **(owner, 2026-11-23: "definitely")** Other attachments, such as
+   PDFs, possibly. **(owner, 2026-11-24: "possibly yes")**
 9. **R2.9** A task can require a photo before it can be marked complete. **(owner, 2026-11-23: "useful for certain
    cases")**
 10. **R2.10** A progress bar or completion percentage is the least likely need. **(owner, 2026-11-23: "the rarest
@@ -206,3 +207,4 @@ Usage specifics to settle once the system is running and pain points show. **(ow
 5. How long the grace period for deleting a task lasts (R11.4).
 6. Which members of a team get reminders for a task assigned to the team. As assignees (R2.12) all of them would,
    which may prove noisy.
+7. The size cap for non-photo attachments (R2.8), and whether any file types should be refused.

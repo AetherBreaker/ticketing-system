@@ -66,10 +66,23 @@ says otherwise.
     each photo before upload, the server re-encodes every image (enforcing the size, rejecting non-images, stripping
     location data) and every upload has a hard size cap, so storage grows with the number of photos, not with
     carelessness.
+18. **Project layout** (owner, 2026-11-24): one Python package, `src/ticketing_system/`, holding the Django project
+    (`settings.py`, `urls.py`, `api.py` joining each app's API routes, and `__main__.py`, which applies migrations
+    and then runs the web server or the worker) and four apps: `accounts` (people, roles, teams, account modes,
+    sign-in pages), `tasks` (projects, tasks and steps, checklists, comments, photos, history, templates, repeats),
+    `automations` (the engine, the editor's file format and its `ast` check, Python imports, the scheduler) and
+    `mail` (outgoing email, Zoho inbox intake). The React app is in `frontend/`, with the mode definitions in
+    `frontend/src/modes/`, since a mode only changes the interface and the server only records each account's
+    mode. Server tests in `tests/`, Playwright in `tests/e2e/`.
+19. **Tooling** (Claude's calls, approved by the owner, 2026-11-24): Django 6.1 (Python 3.14 and 3.15); gunicorn with
+    threads, for low memory; npm; ESLint and Prettier with React's hooks rules; pytest-django; Vitest only where
+    the frontend has logic worth testing alone; the Postgres user renamed from `odoo` to `ticketing`; the Odoo code
+    removed in the change that adds the skeleton.
 
 ## Open
 
-1. **Project structure**: to be discussed next.
+1. **Non-photo attachments** (owner: "possibly yes", 2026-11-24). Claude proposes any file type, each with a hard
+   size cap and stored like photos; only images are re-encoded. The cap's size is learned from use (R12).
 2. **Automation design** (R4.5): its own discussion, under the owner's criteria.
 3. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
 4. Coolify server upgrade: currently 2 GB with heavy swap use; storage needs room for photos (decision 17).
