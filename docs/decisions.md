@@ -60,14 +60,18 @@ says otherwise.
     and one image build; the existing signal forwarding, reaping, stop grace and healthchecks.io `/fail` alerts apply.
     Needs a devkit-container PR and release before the first deploy, not before development; merging it needs the
     owner's go-ahead on that PR.
+17. **Photos are stored in Postgres** (owner, 2026-11-24), with a storage upgrade on the server, so one backup covers
+    everything; external buckets (Cloudflare R2, Backblaze B2) were the alternative. Claude's calls: photos go through
+    Django's storage interface, so moving them later is a settings change plus a one-time copy; the phone shrinks
+    each photo before upload, the server re-encodes every image (enforcing the size, rejecting non-images, stripping
+    location data) and every upload has a hard size cap, so storage grows with the number of photos, not with
+    carelessness.
 
 ## Open
 
 1. **Project structure**: to be discussed next.
-2. **Photo storage**: Postgres (owner's likely pick, with a storage upgrade) or external storage; upload limits
-   apply either way.
-3. **Automation design** (R4.5): its own discussion, under the owner's criteria.
-4. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
-5. Coolify server upgrade: currently 2 GB with heavy swap use.
-6. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
+2. **Automation design** (R4.5): its own discussion, under the owner's criteria.
+3. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
+4. Coolify server upgrade: currently 2 GB with heavy swap use; storage needs room for photos (decision 17).
+5. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
    a `python3.15-trixie-slim` image; devkit-container's template hard-codes the 3.14 base image.
