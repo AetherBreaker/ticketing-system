@@ -54,16 +54,20 @@ says otherwise.
     scheduler, Zoho inbox polling, and dispatching events. Each automation run gets its own short-lived child
     process with a time limit, so a hung run is killed and logged as failed and a crash ends only that run; a cap
     (2 to start) limits how many run at once.
+16. **devkit-container supervises the worker** (owner, 2026-11-24), for its alerting and tested supervision: a new
+    `[tool.docker]` setting starts the worker as the non-root user beside the app and restarts it with back-off when
+    it exits, without ending the run (unlike `daemons`, which run as root and end the run on any exit). One service
+    and one image build; the existing signal forwarding, reaping, stop grace and healthchecks.io `/fail` alerts apply.
+    Needs a devkit-container PR and release before the first deploy, not before development; merging it needs the
+    owner's go-ahead on that PR.
 
 ## Open
 
 1. **Project structure**: to be discussed next.
-2. **Where the worker is supervised**, with one image build (owner, 2026-11-24: no second build): the app's own
-   start-up script, devkit-container, or a second service reusing the first's image.
-3. **Photo storage**: Postgres (owner's likely pick, with a storage upgrade) or external storage; upload limits
+2. **Photo storage**: Postgres (owner's likely pick, with a storage upgrade) or external storage; upload limits
    apply either way.
-4. **Automation design** (R4.5): its own discussion, under the owner's criteria.
-5. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
-6. Coolify server upgrade: currently 2 GB with heavy swap use.
-7. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
+3. **Automation design** (R4.5): its own discussion, under the owner's criteria.
+4. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
+5. Coolify server upgrade: currently 2 GB with heavy swap use.
+6. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
    a `python3.15-trixie-slim` image; devkit-container's template hard-codes the 3.14 base image.
