@@ -38,11 +38,19 @@ says otherwise.
 11. **Frontend framework: React, in TypeScript, built with Vite** (owner, 2026-11-24), over Svelte: more mature
     component kits, date and schedule pickers and form libraries, and Claude's experience. Svelte's shorter, more
     readable code mattered less since Claude is the one reading it.
+12. **Navigation: React Router; data: TanStack Query** (owner, 2026-11-24). Data loads one way only, through TanStack
+    Query, with one fixed rule after any change: refresh everything currently shown (decision 8's safeguard). The
+    API client, typed functions and typed TanStack Query calls, is generated from Django Ninja's API description
+    (owner, 2026-11-24).
+13. **Styling: shadcn/ui on Tailwind CSS** (owner, 2026-11-24), over Mantine, MUI and React Aria. Its components are
+    copied into our code, so every one can be restyled; Radix underneath handles keyboard, screen-reader and phone
+    behaviour; theming is CSS variables, which suits the company's logo and colours (R8.1).
 
 ## Open
 
-1. **Frontend tools**: the data-fetching and navigation libraries, and the styling approach.
-2. **Project structure**: after the stack.
+1. **Project structure**: to be discussed next.
+2. **Background work**: inside the web server process, or a second process from the same image (Claude recommends
+   the second: an imported Python automation that hangs or crashes can't take the web server down with it).
 3. **Automation design** (R4.5): its own discussion, under the owner's criteria.
 4. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
 5. Coolify server upgrade: currently 2 GB with heavy swap use.
