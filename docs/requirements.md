@@ -89,6 +89,8 @@ All by email at minimum. **(owner, 2026-11-20)**
 4. **R4.4** Changes to the interface and configuration, installed modules included, ship only as redeploys triggered by
    new GitHub releases, through the same release workflow as the company's other projects. Everything is declarative
    and reproducible; nothing relies on live state that a careless redeploy could lose. **(owner, 2026-11-23)**
+5. **R4.5** An automation builder in the interface, so people other than the owner can build automations.
+   **(owner, 2026-11-24)** Who can build them, what they can do, and how they square with R4.4 are **(open)**.
 
 ## 5. Simplicity
 

@@ -110,3 +110,10 @@ says otherwise.
    3.14 base image. Lazy imports must keep `odoo.*` eager (models register by import side effect), e.g. through
    `sys.set_lazy_imports_filter` in the launcher. The memory gain is unmeasured.
 6. **Project structure**: to be discussed next.
+7. **Foundation reconsidered: owner leaning toward building from scratch** (2026-11-24), since Odoo is too heavy for
+   what we need. Estimate behind it: about even to a first release, from scratch clearly less after; Odoo's
+   strengths are breadth and live configurability, which item 9 removes, while the simple interface and modes
+   (R5.1, R5.3) mean patching its web client. A stripped fork still carries about 178k lines of Python, 242k of
+   JavaScript and 56k of XML. Not decided; ratings (item 9) and the fork setup wait on it. The new automation
+   builder (R4.5) counts for Odoo, but only Settings administrators can create Odoo's automation rules, which can
+   run Python code.
