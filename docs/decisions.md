@@ -48,22 +48,20 @@ says otherwise.
 14. **The frontend is built on release, in GitHub Actions, and attached to the release; the image gets it from there**
     (owner, 2026-11-24), not built on the Coolify server, where a Vite build would compete with the live app for
     memory during deploys. `release-and-pin` watches the whole release run (`gh run watch`), so the pin waits for
-    the build, and a failed build blocks it. Whether it travels inside the wheel instead, so the image gets
-    everything from SFTPyPI, is open (Open item 3).
+    the build, and a failed build blocks it. Not bundled into the wheel (owner, 2026-11-24): that needed devkit
+    changes at both ends (a pre-build step in the release template, and installing from SFTPyPI in the image).
 
 ## Open
 
 1. **Project structure**: to be discussed next.
 2. **Background work**: Claude recommends a second process, so an imported Python automation that hangs or crashes
-   can't take the web server down with it. The owner is weighing a second compose service against the app
-   supervising worker subprocesses itself, inside one container.
-3. **Frontend in the wheel**: build it into the package before `uv build` so the published wheel carries it, and have
-   the image install that wheel from SFTPyPI. Needs an opt-in pre-build step in aeth-devkit's release template, and
-   either a Dockerfile window that reinstalls the published wheel or an index-install mode in devkit-container.
-4. **Photo storage**: Postgres (owner's likely pick, with a storage upgrade) or external storage; upload limits
+   can't take the web server down with it. Not a second image build (owner, 2026-11-24): devkit's compose template
+   gives every listed service its own `build:` of the same Dockerfile. Open: the app supervising the worker itself,
+   devkit-container supervising it, or a second service reusing the first's image.
+3. **Photo storage**: Postgres (owner's likely pick, with a storage upgrade) or external storage; upload limits
    apply either way.
-5. **Automation design** (R4.5): its own discussion, under the owner's criteria.
-6. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
-7. Coolify server upgrade: currently 2 GB with heavy swap use.
-8. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
+4. **Automation design** (R4.5): its own discussion, under the owner's criteria.
+5. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
+6. Coolify server upgrade: currently 2 GB with heavy swap use.
+7. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
    a `python3.15-trixie-slim` image; devkit-container's template hard-codes the 3.14 base image.
