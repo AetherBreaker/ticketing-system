@@ -78,13 +78,14 @@ says otherwise.
     threads, for low memory; npm; ESLint and Prettier with React's hooks rules; pytest-django; Vitest only where
     the frontend has logic worth testing alone; the Postgres user renamed from `odoo` to `ticketing`; the Odoo code
     removed in the change that adds the skeleton.
+20. **Non-photo attachments** (Claude's proposal, approved by the owner, 2026-11-24; R2.8): any file type, each with
+    a hard size cap (about 10 MB to start), stored like photos; only images are re-encoded. The cap and any refused
+    types are learned from use (R12 item 7).
 
 ## Open
 
-1. **Non-photo attachments** (owner: "possibly yes", 2026-11-24). Claude proposes any file type, each with a hard
-   size cap and stored like photos; only images are re-encoded. The cap's size is learned from use (R12).
-2. **Automation design** (R4.5): its own discussion, under the owner's criteria.
-3. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
-4. Coolify server upgrade: currently 2 GB with heavy swap use; storage needs room for photos (decision 17).
-5. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
+1. **Automation design** (R4.5): its own discussion, under the owner's criteria.
+2. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
+3. Coolify server upgrade: currently 2 GB with heavy swap use; storage needs room for photos (decision 17).
+4. **Python 3.15 port** (owner interested, for PEP 810 lazy imports; not now). 3.15.0 shipped 2026-10-09; uv publishes
    a `python3.15-trixie-slim` image; devkit-container's template hard-codes the 3.14 base image.
