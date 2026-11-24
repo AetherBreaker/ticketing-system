@@ -102,8 +102,10 @@ All by email at minimum. **(owner, 2026-11-20)**
       automations.
    5. Every automation is one importable Python file, and automations work the same however they were made. The
       editor saves what it builds as a Python file, which can then be edited and resaved as an advanced automation.
-      **(owner, 2026-11-24)**
-   6. Builders: likely administrators only. **(owner leaning)**
+      The editor reopens an edited file only if it still matches the structure editor-built automations follow,
+      checked by parsing it with `ast`. **(owner, 2026-11-24)**
+   6. Builders: likely administrators only. **(owner leaning)** Importing Python files is always administrators only,
+      whoever can use the editor. **(owner, 2026-11-24)**
 
 ## 5. Simplicity
 

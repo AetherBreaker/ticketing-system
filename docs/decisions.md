@@ -16,7 +16,9 @@ says otherwise.
    new email a task in a team's queue; recategorizing is a team change, which the task's history records.
 5. **Browser tests use Playwright** (Claude, at the owner's request, 2026-11-23): Python under pytest like the rest of
    the project, run in Firefox, testing what users see, interface modes included.
-6. **Database: Postgres** (owner, 2026-11-24). Coolify runs it and backs it up on a schedule.
+6. **Database: Postgres** (owner, 2026-11-24). Coolify runs it and backs it up on a schedule. Automations built or
+   imported in the interface (R4.5) are stored in it as their Python source and loaded from there (owner,
+   2026-11-24), so its backups cover them.
 
 ## Open
 
