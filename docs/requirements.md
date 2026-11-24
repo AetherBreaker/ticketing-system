@@ -94,13 +94,16 @@ All by email at minimum. **(owner, 2026-11-20)**
    **(owner, 2026-11-24)**:
    1. The editor is where complexity is the biggest risk, so its design follows two criteria: there is generally
       one way to do a thing, never more; and that one way is simple and versatile enough that a second is never
-      needed.
+      needed. The criteria apply to the editor only, not to advanced automations (item 4). **(owner, 2026-11-24)**
    2. Automations create and assign tasks, their primary use, as well as send reminders.
    3. Built live in the interface and stored as data; a proven one can be exported into code.
    4. Advanced automations are plain Python files imported through the interface. We choose which imports they get
       and leave it at that: security comes from controlling who is an administrator, not from restricting the
       automations.
-   5. Builders: likely administrators only. **(owner leaning)**
+   5. Every automation is one importable Python file, and automations work the same however they were made. The
+      editor saves what it builds as a Python file, which can then be edited and resaved as an advanced automation.
+      **(owner, 2026-11-24)**
+   6. Builders: likely administrators only. **(owner leaning)**
 
 ## 5. Simplicity
 
