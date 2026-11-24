@@ -35,11 +35,13 @@ says otherwise.
 10. **Django serves the built frontend from the same address as the API** (owner, 2026-11-24), so the browser sends
     Django's session cookie with every API call and Django's CSRF protection works unchanged. A separate address
     would need cross-origin rules plus cross-site cookies or sign-in tokens.
+11. **Frontend framework: React, in TypeScript, built with Vite** (owner, 2026-11-24), over Svelte: more mature
+    component kits, date and schedule pickers and form libraries, and Claude's experience. Svelte's shorter, more
+    readable code mattered less since Claude is the one reading it.
 
 ## Open
 
-1. **Frontend tools**: the framework (React or Svelte), then the data-fetching and navigation libraries and the
-   styling approach.
+1. **Frontend tools**: the data-fetching and navigation libraries, and the styling approach.
 2. **Project structure**: after the stack.
 3. **Automation design** (R4.5): its own discussion, under the owner's criteria.
 4. `aeth_ext` in the app process (alerts, central logging, healthchecks.io ping).
